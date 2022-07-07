@@ -1,4 +1,3 @@
--- D3S1RED / TheePBHST
 -- quickly find users in your game because why the fuck not?!
 -- enjoy <3
 
