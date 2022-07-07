@@ -82,6 +82,7 @@ stop.Position = UDim2.new(0, -5, 0.5, 0)
 stop.Selectable = true
 stop.Size = UDim2.new(1, 0, 1, 0)
 stop.SizeConstraint = Enum.SizeConstraint.RelativeYY
+stop.Visible = false
 
 UICorner_4.CornerRadius = UDim.new(0.300000012, 0)
 UICorner_4.Parent = stop
