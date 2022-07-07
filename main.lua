@@ -132,35 +132,35 @@ local function createESP(player)
 				local highlight = Instance.new("Highlight", playerFolder)
 				highlight.Adornee = part
 				highlight.OutlineTransparency = 1
-				
-				local bb = Instance.new("BillboardGui")
-				bb.Adornee = character.HumanoidRootPart
-				bb.ExtentsOffsetWorldSpace = Vector3.new(0, 0.5, 0)
-				bb.StudsOffset = Vector3.new(0, 1, 0)
-				bb.StudsOffsetWorldSpace = Vector3.new(0, 1, 0)
-				bb.AlwaysOnTop = true
-				bb.Size = UDim2.new(0, 5, 0, 5)
-				bb.StudsOffset = Vector3.new(0, 0, 0)
-				bb.Name = "hi_there_"..player.Name
-				bb.Parent = playerFolder
-
-				local frame = Instance.new("Frame", bb)
-				frame.ZIndex = 10
-				frame.BackgroundTransparency = 1
-				frame.Size = UDim2.new(1, 0, 1, 0)
-
-				local name = Instance.new("TextLabel", frame)
-				name.ZIndex = 10
-				name.Text = player.Name
-				name.BackgroundTransparency = 1
-				name.Position = UDim2.new(0, 0, 0, -45)
-				name.Size = UDim2.new(1, 0, 10, 0)
-				name.TextColor3 = Color3.fromRGB(255, 255, 255)
-				name.Font = Enum.Font.Gotham
-				name.TextSize = 13
-				name.TextStrokeTransparency = 1
 			end
 		end
+		
+		local bb = Instance.new("BillboardGui")
+		bb.Adornee = character.HumanoidRootPart
+		bb.ExtentsOffsetWorldSpace = Vector3.new(0, 0.5, 0)
+		bb.StudsOffset = Vector3.new(0, 1, 0)
+		bb.StudsOffsetWorldSpace = Vector3.new(0, 1, 0)
+		bb.AlwaysOnTop = true
+		bb.Size = UDim2.new(0, 5, 0, 5)
+		bb.StudsOffset = Vector3.new(0, 0, 0)
+		bb.Name = "hi_there_"..player.Name
+		bb.Parent = playerFolder
+
+		local frame = Instance.new("Frame", bb)
+		frame.ZIndex = 10
+		frame.BackgroundTransparency = 1
+		frame.Size = UDim2.new(1, 0, 1, 0)
+
+		local name = Instance.new("TextLabel", frame)
+		name.ZIndex = 10
+		name.Text = player.Name
+		name.BackgroundTransparency = 1
+		name.Position = UDim2.new(0, 0, 0, -45)
+		name.Size = UDim2.new(1, 0, 10, 0)
+		name.TextColor3 = Color3.fromRGB(255, 255, 255)
+		name.Font = Enum.Font.Gotham
+		name.TextSize = 13
+		name.TextStrokeTransparency = 1
 	end
 end
 
