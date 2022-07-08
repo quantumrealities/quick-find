@@ -108,16 +108,35 @@ UIPadding_2.PaddingRight = UDim.new(0, 5)
 
 -- main:
 local highlightFolders = {}
+local onAddedEvents = {}
 
-local function returnPlayer(username)
-	for _, player in pairs(game.Players:GetPlayers()) do
-		local character = player.Character
-		local humanoid = character:FindFirstChildOfClass("Humanoid")
+local function returnPlayer(entry: string)
+	if entry:sub(1, 1) == "%" then
+		-- team
+		local team = entry:sub(2)
 		
-		if player.Name:lower():find(username:lower()) or humanoid.DisplayName:lower():find(username:lower()) then
-			return player
+		if team:len() > 0 then
+			for _, team in pairs(game.Teams:GetTeams()) do
+				if team:lower():find(entry) then
+					return team:GetPlayers()
+				end
+			end
+		else
+			return game.Players:GetPlayers()
+		end
+	else
+		-- player
+		for _, player in pairs(game.Players:GetPlayers()) do
+			local character = player.Character
+			local humanoid = character:FindFirstChildOfClass("Humanoid")
+
+			if player.Name:lower():find(entry:lower()) or humanoid.DisplayName:lower():find(entry:lower()) then
+				return {player}
+			end
 		end
 	end
+	
+	return false
 end
 
 local function createESP(player)
@@ -127,7 +146,7 @@ local function createESP(player)
 		local playerFolder = Instance.new("Folder", character)
 		playerFolder.Name = "playerHighlight"
 		table.insert(highlightFolders, playerFolder)
-		
+
 		for _, part in pairs(character:GetDescendants()) do
 			if part:IsA("BasePart") then
 				local highlight = Instance.new("Highlight", playerFolder)
@@ -135,9 +154,9 @@ local function createESP(player)
 				highlight.OutlineTransparency = 1
 			end
 		end
-		
+
 		local bb = Instance.new("BillboardGui")
-		bb.Adornee = character.HumanoidRootPart
+		bb.Adornee = character.PrimaryPart
 		bb.ExtentsOffsetWorldSpace = Vector3.new(0, 0.5, 0)
 		bb.StudsOffset = Vector3.new(0, 1, 0)
 		bb.StudsOffsetWorldSpace = Vector3.new(0, 1, 0)
@@ -166,15 +185,24 @@ local function createESP(player)
 end
 
 find.MouseButton1Up:Connect(function()
-	local target = returnPlayer(username.Text)
-	
-	if target then
+	local targets = returnPlayer(username.Text)
+
+	if targets then
 		username.Text = ""
-		createESP(target)
-	end
-	
-	if not stop.Visible then
-		stop.Visible = true
+		
+		for _, target in pairs(targets) do
+			if target ~= game.Players.LocalPlayer then
+				createESP(target)
+
+				table.insert(onAddedEvents, target.CharacterAdded:Connect(function()
+					createESP(target)
+				end))
+			end
+		end
+		
+		if not stop.Visible then
+			stop.Visible = true
+		end
 	end
 end)
 
@@ -183,6 +211,11 @@ stop_btn.MouseButton1Up:Connect(function()
 		folder:Destroy()
 	end
 	
+	for _, event in pairs(onAddedEvents) do
+		event:Disconnect()
+	end
+	
 	stop.Visible = false
 	highlightFolders = {}
+	onAddedEvents = {}
 end)
